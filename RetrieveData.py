@@ -2,11 +2,11 @@ import requests
 import time
 
 # Enter your Riot Games API key here
-API_KEY = 'RGAPI-3eeb3239-f247-450e-9d9e-43ad1cc62b81'
+API_KEY = 'RGAPI-78c6851b-df8e-41ca-96e9-cd9ddcc61552'
 
 # Enter the name of the summoner you want to check
-summoner_id = 'ZNcgr9WQxPZsCxCc4OPWWk2A9P2_Cds_UmSx9xUs0xUWL3A'
-
+summoner_id = 'ek1lbJxyOo3svtlifjHuAWQldnw0yAXyXIflTrGOnNbg5sc'
+summoner_name = 'Ignitos'
 # Make a request to the Riot Games API to get the summoner's current game information
 url = f'https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summoner_id}?api_key={API_KEY}'
 
