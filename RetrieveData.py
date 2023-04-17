@@ -184,19 +184,22 @@ summoner_name = 'Ignitos'
 url = f'https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summoner_id}?api_key={API_KEY}'
 
 # If the request was successful, print the champion being played by the player and the champions being played by the player's team
-
+enemy = True
 response = requests.get(url)
 if response.status_code == 200:
     data = response.json()
     for participant in data['participants']:
         if participant['summonerName'] == summoner_name:
-            print(f"You are playing as {all_champion_id[participant['championId']]}")
-            print("Your team consists of:")
+            print(f"I am playing as {all_champion_id[participant['championId']]}")
+            print("My team consists of:")
             for teammate in data['participants']:
                 if teammate['teamId'] == participant['teamId']:
-                    print("team:",all_champion_id[teammate['championId']])
+                    print(all_champion_id[teammate['championId']])
                 else:
-                    print("enemy:",all_champion_id[teammate['championId']])
+                    if enemy:
+                        print("The enemy team consists of:")
+                        enemy = False
+                    print(all_champion_id[teammate['championId']])
 else:
     print(f"Error: {response.status_code}")
 
