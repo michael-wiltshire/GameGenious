@@ -175,11 +175,21 @@ all_champion_id = {
         166: "Akshan"
     }
 # Enter your Riot Games API key here
-API_KEY = 'RGAPI-78c6851b-df8e-41ca-96e9-cd9ddcc61552'
+API_KEY = 'RGAPI-c0f947eb-d5bd-4e18-995f-a839a8e44fdc'
 
 # Enter the name of the summoner you want to check
-summoner_id = 'ek1lbJxyOo3svtlifjHuAWQldnw0yAXyXIflTrGOnNbg5sc'
-summoner_name = 'Ignitos'
+summoner_name = 'mikul00'
+
+
+# Grab summoner_id
+url = f'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}?api_key={API_KEY}'
+response = requests.get(url)
+if response.status_code == 200:
+    data = response.json()
+    summoner_id = data['id']
+    #print(summoner_id)
+else:
+    print(f"Error: {response.status_code}")
 # Make a request to the Riot Games API to get the summoner's current game information
 url = f'https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summoner_id}?api_key={API_KEY}'
 
