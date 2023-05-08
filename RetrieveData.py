@@ -175,44 +175,53 @@ all_champion_id = {
         166: "Akshan"
     }
 # Enter your Riot Games API key here
-API_KEY = 'RGAPI-c0f947eb-d5bd-4e18-995f-a839a8e44fdc'
+API_KEY = 'RGAPI-b987331b-62ed-4c16-891b-0e25c4576f3d'
 
 # Enter the name of the summoner you want to check
-summoner_name = 'mikul00'
+summoner_name = 'Dexip'
 
 
 # Grab summoner_id
-url = f'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}?api_key={API_KEY}'
-response = requests.get(url)
+url1 = f'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}?api_key={API_KEY}'
+response = requests.get(url1)
 if response.status_code == 200:
     data = response.json()
     summoner_id = data['id']
     #print(summoner_id)
 else:
     print(f"Error: {response.status_code}")
-# Make a request to the Riot Games API to get the summoner's current game information
+#Make a request to the Riot Games API to get the summoner's current game information
+#summoner_id = 'wlhgPYV7KTWYSq4U91GwD-Z2fcpffb9RKgb7jmnKxJbxkc27'
 url = f'https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summoner_id}?api_key={API_KEY}'
-
+string = ""
 # If the request was successful, print the champion being played by the player and the champions being played by the player's team
-enemy = True
+enemyList = []
+teamList = []
+
 response = requests.get(url)
 if response.status_code == 200:
     data = response.json()
+    #get player and team they are on
     for participant in data['participants']:
         if participant['summonerName'] == summoner_name:
-            print(f"I am playing as {all_champion_id[participant['championId']]}")
-            print("My team consists of:")
-            for teammate in data['participants']:
-                if teammate['teamId'] == participant['teamId']:
-                    print(all_champion_id[teammate['championId']])
-                else:
-                    if enemy:
-                        print("The enemy team consists of:")
-                        enemy = False
-                    print(all_champion_id[teammate['championId']])
-else:
-    print(f"Error: {response.status_code}")
+            teamID = participant['teamId']
+            string+=(f"I am playing as:\n {all_champion_id[participant['championId']]}\n\n")
+    
+    #put teamates and enemies into lists
+    #string+=("My team consists of:\n")
+    for player in data['participants']:
+        if player['teamId'] == teamID:
+            teamList.append(all_champion_id[player['championId']])
+        else:
+            enemyList.append(all_champion_id[player['championId']])
+        #string+=("The enemy team consists of: \n")
 
+
+            # string+=("The enemy team consists of: \n")
+            # string+=(all_champion_id[player['championId']]+'\n')
+
+    #print(f"Error: {response.status_code}")
+print(string,'My team consists of:\n', teamList, '\n\n', 'The enemy team consists of:\n', enemyList)
 
 #1)Need to test Spectatev4 api and get info from request
 #2)get open ai bot working
