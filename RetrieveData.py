@@ -178,7 +178,7 @@ all_champion_id = {
 API_KEY = 'RGAPI-b987331b-62ed-4c16-891b-0e25c4576f3d'
 
 # Enter the name of the summoner you want to check
-summoner_name = 'Dexip'
+summoner_name = 'Ignitos'
 
 
 # Grab summoner_id
@@ -191,13 +191,15 @@ if response.status_code == 200:
 else:
     print(f"Error: {response.status_code}")
 #Make a request to the Riot Games API to get the summoner's current game information
-#summoner_id = 'wlhgPYV7KTWYSq4U91GwD-Z2fcpffb9RKgb7jmnKxJbxkc27'
+#print(summoner_id)
 url = f'https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summoner_id}?api_key={API_KEY}'
-string = ""
+OpeningString = "As a challenger ranked coach, please provide three\
+ short tips for a player in a League of Legends game, considering the\
+  specific team compositions:\n\n"
 # If the request was successful, print the champion being played by the player and the champions being played by the player's team
 enemyList = []
 teamList = []
-
+#teamID = 0
 response = requests.get(url)
 if response.status_code == 200:
     data = response.json()
@@ -205,23 +207,20 @@ if response.status_code == 200:
     for participant in data['participants']:
         if participant['summonerName'] == summoner_name:
             teamID = participant['teamId']
-            string+=(f"I am playing as:\n {all_champion_id[participant['championId']]}\n\n")
+            OpeningString+=(f"Their Champion: {all_champion_id[participant['championId']]}\n")
     
-    #put teamates and enemies into lists
-    #string+=("My team consists of:\n")
     for player in data['participants']:
         if player['teamId'] == teamID:
             teamList.append(all_champion_id[player['championId']])
         else:
             enemyList.append(all_champion_id[player['championId']])
-        #string+=("The enemy team consists of: \n")
 
+endingString = "\n\nPlease provide short tips on:\n\
+1) How they can best play around her team's composition strengths\n\
+2) How they can help cover the weaknesses of her team's composition\n\
+3) How they can exploit the vulnerabilities of the enemy team's composition"
 
-            # string+=("The enemy team consists of: \n")
-            # string+=(all_champion_id[player['championId']]+'\n')
-
-    #print(f"Error: {response.status_code}")
-print(string,'My team consists of:\n', teamList, '\n\n', 'The enemy team consists of:\n', enemyList)
+print(OpeningString,'Ally team: ', teamList, '\n', 'Enemy team: ', enemyList, endingString)
 
 #1)Need to test Spectatev4 api and get info from request
 #2)get open ai bot working
