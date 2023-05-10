@@ -187,19 +187,18 @@ response = requests.get(url1)
 if response.status_code == 200:
     data = response.json()
     summoner_id = data['id']
-    #print(summoner_id)
 else:
     print(f"Error: {response.status_code}")
+
 #Make a request to the Riot Games API to get the summoner's current game information
-#print(summoner_id)
 url = f'https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summoner_id}?api_key={API_KEY}'
 OpeningString = "As a challenger ranked coach, please provide three\
  short tips for a player in a League of Legends game, considering the\
   specific team compositions:\n\n"
+
 # If the request was successful, print the champion being played by the player and the champions being played by the player's team
 enemyList = []
 teamList = []
-#teamID = 0
 response = requests.get(url)
 if response.status_code == 200:
     data = response.json()
@@ -222,7 +221,7 @@ endingString = "\n\nPlease provide short tips on:\n\
 
 print(OpeningString,'Ally team: ', teamList, '\n', 'Enemy team: ', enemyList, endingString)
 
-#1)Need to test Spectatev4 api and get info from request
+#1)Need to test Spectatev4 api and get info from request DONE
 #2)get open ai bot working
 #3)plug them together
 #4)create ui/gui environment to run program
