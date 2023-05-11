@@ -186,7 +186,7 @@ def RetrieveData(summoner_name:'Mikul00'):
     API_KEY = reader('RIOT_API_KEY.txt')
 
     # Enter the name of the summoner you want to check
-    summoner_name = 'chkkstrr'
+    #summoner_name = 'chkkstrr'
 
 
     # Grab summoner_id
@@ -203,14 +203,14 @@ def RetrieveData(summoner_name:'Mikul00'):
 
     query=""
     #Opening string
-    OpeningString = "As a challenger ranked coach, please provide three\
- short tips for a player in a League of Legends game, considering the\
- specific team compositions:\n\n"
+    OpeningString = "Given this specific team composition in League of Legends, please provide short strategic advice for a player.\
+ Please consider factors like specific champion abilities, item builds, power spikes, and interactions between champions on both\
+  teams:"
 
-    endingString = "\n\nPlease provide short tips on:\n\
-    1) How they can best play around their team's composition strengths\n\
-    2) How they can help cover the weaknesses of their team's composition\n\
-    3) How they can exploit the vulnerabilities of the enemy team's composition"
+    endingString = "Please list the tips in this format:\
+  Tips: 1) How they can best play around their team's composition strengths: \
+  2) How they can help cover the weaknesses of their team's composition: \
+  3) How they can exploit the vulnerabilities of the enemy team's composition: "
 
     # If the request was successful, print game query
     enemyList = []
@@ -222,7 +222,7 @@ def RetrieveData(summoner_name:'Mikul00'):
         for participant in data['participants']:
             if participant['summonerName'] == summoner_name:
                 teamID = participant['teamId']
-                OpeningString+=(f"Their Champion: {all_champion_id[participant['championId']]}\n")
+                OpeningString+=(f"Their Champion: {all_champion_id[participant['championId']]}")
         #grabs champions from ally and enemy teams
         for player in data['participants']:
             if player['teamId'] == teamID:
@@ -234,47 +234,32 @@ def RetrieveData(summoner_name:'Mikul00'):
         #error check
         print("uh oh, something's not quite right")
     else:
-        #returns the query
-        # query += (OpeningString)
-        # query += ('Ally team: ')
-        # query += str(teamList)
-        # query += ('\n')
-        # query += ('Enemy team: ')
-        # query += str(enemyList)
-        # query += (endingString)
-        # #print((OpeningString,'Ally team: ', teamList, '\n', 'Enemy team: ', enemyList, endingString))
-        # return query
-        query = f"""{OpeningString}Ally team: {teamList}\nEnemy team: {enemyList}{endingString}"""
+
+        query = f'{OpeningString}Ally team: {teamList} Enemy team: {enemyList}{endingString}'
 
         return query
 
-def ResponseAI(query):
-
+def ResponseAI(query:"What do cows say?"):
+    #openai api key
     API_KEY = reader('OPENAI_API_KEY.txt')                                   
     openai.api_key = API_KEY
-    model = "text-curie-001"
-
-    # response = openai.Completion.create(
-    #     engine = model,
-    #     prompt = query,
-    #     max_tokens = 256,
-    #     temperature=0.7,
-    #     n=1
-    #     )
+    #openai magic
     response = openai.Completion.create(
-      model="text-davinci-001",
-      prompt="what is 5 + 4?",
-      max_tokens=256,
+      model="text-davinci-003",
+      prompt=query,
+      temperature=0.7,
+      max_tokens=500,
       top_p=1,
       frequency_penalty=0,
       presence_penalty=0)
+    #returns insights
+    return(response.choices[0].text)
 
-    print("hello")
-    print(response.choices)
 
-ResponseAI(RetrieveData('AriaRRay'))
+print(ResponseAI(RetrieveData('S8 IS SO FUN')))
+
 
     #1)Need to test Spectatev4 api and get info from request DONE
-    #2)get open ai bot working
-    #3)plug them together
+    #2)get open ai bot working DONE
+    #3)plug them together DONE
     #4)create ui/gui environment to run program
