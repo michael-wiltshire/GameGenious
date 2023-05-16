@@ -256,7 +256,7 @@ def ResponseAI(query:"What do cows say?"):
     return(response.choices[0].text)
 
 
-print(ResponseAI(RetrieveData('S8 IS SO FUN')))
+print(ResponseAI(RetrieveData('NoctolFinn')))
 
 
     #1)Need to test Spectatev4 api and get info from request DONE
