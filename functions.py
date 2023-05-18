@@ -256,8 +256,6 @@ def ResponseAI(query:"What do cows say?"):
     return(response.choices[0].text)
 
 
-print(ResponseAI(RetrieveData('NoctolFinn')))
-
 
     #1)Need to test Spectatev4 api and get info from request DONE
     #2)get open ai bot working DONE
