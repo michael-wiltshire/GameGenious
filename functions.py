@@ -203,14 +203,24 @@ def RetrieveData(summoner_name:'Mikul00'):
 
     query=""
     #Opening string
-    OpeningString = "Given this specific team composition in League of Legends, please provide short strategic advice for a player.\
- Please consider factors like specific champion abilities, item builds, power spikes, and interactions between champions on both\
-  teams:"
+    OpeningString = """
+Given this specific team composition in League of Legends,
+provide short strategic advice for a player. Consider factors 
+like specific champion abilities,item builds, power spikes,
+and interactions between champions on both teams:
+    """
 
-    endingString = "Please list the tips in this format:\
-  Tips: 1) How they can best play around their team's composition strengths: \
-  2) How they can help cover the weaknesses of their team's composition: \
-  3) How they can exploit the vulnerabilities of the enemy team's composition: "
+    endingString = """
+Please list the tips like this:
+
+Tips: 
+
+1) ~How they can best play around their team's composition strengths~
+
+2) ~How they can help cover the weaknesses of their team's composition~
+
+3) ~How they can exploit the vulnerabilities of the enemy team's composition~ 
+    """
 
     # If the request was successful, print game query
     enemyList = []
@@ -222,7 +232,10 @@ def RetrieveData(summoner_name:'Mikul00'):
         for participant in data['participants']:
             if participant['summonerName'] == summoner_name:
                 teamID = participant['teamId']
-                OpeningString+=(f"Their Champion: {all_champion_id[participant['championId']]}")
+                OpeningString+=(f"""
+Their Champion: {all_champion_id[participant['championId']]}
+                    """
+                    )
         #grabs champions from ally and enemy teams
         for player in data['participants']:
             if player['teamId'] == teamID:
@@ -233,14 +246,22 @@ def RetrieveData(summoner_name:'Mikul00'):
     if len(enemyList)==0 or len(teamList)==0:
         #error check
         print("uh oh, something's not quite right")
+        return 0
     else:
 
-        query = f'{OpeningString}Ally team: {teamList} Enemy team: {enemyList}{endingString}'
+        query = f"""
+{OpeningString}
+Ally team: {teamList}
+Enemy team: {enemyList}
+
+{endingString}"""
 
         return query
 
 def ResponseAI(query:"What do cows say?"):
     #openai api key
+    if not query:
+        return None
     API_KEY = reader('OPENAI_API_KEY.txt')                                   
     openai.api_key = API_KEY
     #openai magic
@@ -255,9 +276,14 @@ def ResponseAI(query:"What do cows say?"):
     #returns insights
     return(response.choices[0].text)
 
+def main(summoner_name:'HULKSMASH1337'):
+    return ResponseAI(RetrieveData(summoner_name))
 
+#print(ResponseAI(RetrieveData('HULKSMASH1337')))
 
     #1)Need to test Spectatev4 api and get info from request DONE
     #2)get open ai bot working DONE
     #3)plug them together DONE
-    #4)create ui/gui environment to run program
+    #4)create ui/gui environment to run program DONE
+    #5)Make executable application
+    #6)Multithreading for animations
