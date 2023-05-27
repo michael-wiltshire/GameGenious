@@ -3,7 +3,7 @@ from functions import *
 import tkinter as tk
 import customtkinter as ctk
 
-
+#test
 def show_button_below_poem():
     button.grid(row=5, column=1, columnspan=10, pady=12, sticky=S)
     error_label.grid_forget()
@@ -42,14 +42,13 @@ text_box.grid(row=1, column=1, pady=12, padx=10, sticky=W)
 text_box.bind('<Return>', lambda event: start_button_pushed())
 
 # Create the error label (initially hidden)
-error_label = ctk.CTkLabel(master=frame1, text="Incorrect summoner name")
+error_label = ctk.CTkLabel(master=frame1, text="No live game")
 
 loading_label = ctk.CTkLabel(master=frame1, text="")
 loading_label.grid(row=1, column=2)
 
-
-tips_label = ctk.CTkLabel(master=frame1, text="Tips:")
-tips_label.grid(row=2, column=0, pady=12, padx=10, sticky=NW)
+# tips_label = ctk.CTkLabel(master=frame1, text="Tips:")
+# tips_label.grid(row=2, column=0, pady=12, padx=10, sticky=NW)
 
 button = ctk.CTkButton(master=frame1, text="Start")
 
